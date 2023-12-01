@@ -1,11 +1,11 @@
 import operator
 
-import mnist
 import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import euclidean_distances
 import tqdm
+from sklearn.datasets import fetch_openml
 
 
 class KNN:
@@ -37,11 +37,12 @@ class KNN:
 
 if __name__ == "__main__":
     # Load dataset
-    train_data = mnist.train_images()
-    test_data = mnist.test_images()
+    mnist = fetch_openml('mnist_784', as_frame=False)
+    train_data = mnist.data[:60000].reshape(60000, 28,28)
+    test_data = mnist.data[60000:].reshape(10000, 28,28)
 
-    train_labels = mnist.train_labels()
-    test_labels = mnist.test_labels()
+    train_labels = mnist.target[:60000]
+    test_labels = mnist.target[60000:]
 
     # Reshape and transform data
     train_data = train_data.reshape(train_data.shape[0], train_data.shape[1] * train_data.shape[2])
